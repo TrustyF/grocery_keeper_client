@@ -3,7 +3,10 @@ import {RouterLink, RouterView} from 'vue-router'
 import {provide, ref} from "vue";
 
 let update_item_id = ref(0)
+let selected_item = ref({})
+
 provide('update_item_id', update_item_id)
+provide('selected_item', selected_item)
 
 </script>
 

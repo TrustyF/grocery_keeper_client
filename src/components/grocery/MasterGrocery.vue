@@ -3,8 +3,10 @@ import {inject, onMounted, watch, ref, computed} from "vue";
 import PercentCircle from "./sub-components/PercentCircle.vue";
 
 let props = defineProps(["data"]);
+
 const curr_api = inject("curr_api");
 const update_item_id = inject("update_item_id");
+const selected_item = inject("selected_item");
 
 let expiry_days_remaining = ref(0)
 
@@ -37,7 +39,7 @@ onMounted(() => {
 </script>
 
 <template>
-  <div class="wrapper_master_grocery">
+  <div class="wrapper_master_grocery" @click="selected_item=data">
 
     <button class="delete_button" @click="delete_item">x</button>
     <percent-circle class="percent_circle" :score="expiry_days_remaining"></percent-circle>
@@ -45,6 +47,7 @@ onMounted(() => {
 
     <div class="master_footer">
       <h1>{{ data['name'] }}</h1>
+      <h3>{{ new Date(data['expiry_date']).toLocaleDateString() }}</h3>
       <h2>{{ '$' + data['price'] }}</h2>
     </div>
 
@@ -63,18 +66,22 @@ onMounted(() => {
   box-shadow: black 2px 2px 2px;
   background-color: #282828;
 }
+
 h1 {
   font-size: 1em;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
 }
+
 h2 {
   font-size: 1em;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
 }
+
+h3 {
+  font-size: 0.7em;
+}
+
 
 .master_footer {
   position: relative;
@@ -85,8 +92,9 @@ h2 {
 
 .preview {
   width: 100%;
-  object-fit: contain;
-  /*background-color: white;*/
+  height: 150px;
+  object-fit: cover;
+  background-color: white;
 }
 
 .percent_circle {

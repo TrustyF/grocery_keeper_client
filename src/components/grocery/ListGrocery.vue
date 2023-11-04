@@ -14,7 +14,7 @@ function get_groceries() {
   fetch(url)
       .then(response => response.json())
       .then(data => {
-        groceries.value = data
+        groceries.value = data.sort((a,b) => new Date(a['expiry_date']) > new Date(b['expiry_date']))
         console.log(data);
       })
 }
@@ -35,7 +35,17 @@ watch(update_item_id,(oldV,newV) =>{
 
 <style scoped>
 .wrapper_list_grocery {
+  /*outline: 1px solid red;*/
+  width: 100%;
+
   display: flex;
-  gap: 10px;
+  flex-flow: row wrap;
+  justify-content: flex-start;
+
+  /*justify-items: center;*/
+  /*display: grid;*/
+  /*grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));*/
+
+  gap: 15px;
 }
 </style>

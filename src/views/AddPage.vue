@@ -5,6 +5,7 @@ import ListGrocery from "../components/grocery/ListGrocery.vue";
 let props = defineProps(["test"]);
 const curr_api = inject("curr_api");
 const update_item_id = inject("update_item_id");
+const selected_item = inject("selected_item");
 
 let image_preview = ref('')
 let form_data = {}
@@ -34,22 +35,38 @@ function add_product() {
         update_item_id.value += 1
       })
 }
+
+function fill_form_from_json() {
+  let form = document.querySelectorAll('input')
+
+  form.forEach((val, key) => {
+    if (val.type !== 'date') {
+      val.value = selected_item.value[val.name]
+    }
+  })
+
+  update_preview(selected_item.value['preview_image'])
+}
+
+watch(selected_item, (oldV, newV) => {
+  fill_form_from_json()
+})
 </script>
 
 <template>
   <div class="wrapper_add_page">
-    <form @submit.prevent="submit($event)">
+    <form @submit.prevent="submit($event)" id="add_form">
       <label for="i_name">Name</label><br>
-      <input type="text" id="i_name" name="name" required><br>
+      <input type="text" id="i_name" name="name" @focus="$event.target.select()" required><br>
 
       <label for="i_weight">Weight (Kg/L)</label><br>
-      <input type="number" step="0.01" id="i_weight" name="weight" required><br>
+      <input type="number" step="0.01" id="i_weight" name="weight" @focus="$event.target.select()" required><br>
 
       <label for="i_quantity">Quantity</label><br>
       <input type="number" id="i_quantity" value="1" name="quantity" required><br>
 
       <label for="i_price">Price</label><br>
-      <input type="number" step="0.01" id="i_price" name="price" required><br>
+      <input type="number" step="0.01" id="i_price" name="price" @focus="$event.target.select()" required><br>
 
       <label for="i_store">Store</label><br>
       <select id="i_store" name="store">
@@ -75,12 +92,12 @@ function add_product() {
       <input type="date" id="i_expiry_date" name="expiry_date"
              :value="new Date().toISOString().substring(0,10)" required><br>
 
-      <label for="i_image">Image</label><br>
-      <input type="url" id="i_image" name="image" @focus="$event.target.select()" @input="event => update_preview(event.target.value)" required><br>
+      <label for="i_preview_image">Image</label><br>
+      <input type="url" id="i_preview_image" name="preview_image" @focus="$event.target.select()"
+             @input="event => update_preview(event.target.value)" required><br>
       <img class="preview_image" :src="image_preview" alt="image_preview"><br>
 
       <button type="submit">Submit</button>
-
     </form>
   </div>
 
@@ -96,6 +113,7 @@ function add_product() {
   justify-items: center;
   justify-content: center;
 }
+
 .preview_image {
   width: 100px;
   height: 100px;
