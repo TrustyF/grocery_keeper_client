@@ -14,7 +14,7 @@ function get_groceries() {
   fetch(url)
       .then(response => response.json())
       .then(data => {
-        groceries.value = data.sort((a,b) => new Date(a['expiry_date']) > new Date(b['expiry_date']))
+        groceries.value = data.sort((a,b) => new Date(a['expiry_date']) - new Date(b['expiry_date']))
         console.log(data);
       })
 }

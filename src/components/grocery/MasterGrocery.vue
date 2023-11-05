@@ -38,6 +38,17 @@ function calc_date_percentage() {
   expiry_days_remaining.value = Math.ceil((expiry_date - current_date) / (1000 * 60 * 60 * 24));
 }
 
+function mark_outdated(){
+  if (expiry_days_remaining.value <= 0){
+    let element = document.getElementById(`wrapper_master_grocery${props['data']['id']}`)
+    element.classList.add('orange_glow')
+
+    if (expiry_days_remaining.value <= -3){
+      element.classList.add('red_glow')
+    }
+  }
+}
+
 function delete_item() {
   const url = new URL(`${curr_api}/grocery/delete`)
   url.searchParams.set('id', props['data']['id'])
@@ -52,13 +63,14 @@ function delete_item() {
 
 onMounted(() => {
   calc_date_percentage()
+  mark_outdated()
 })
 </script>
 
 <template>
-  <div class="wrapper_master_grocery" @click="selected_item=data">
+  <div class="wrapper_master_grocery" :id="`wrapper_master_grocery${data['id']}`" @click="selected_item=data">
 
-    <img src="src/assets/ui/xbutton_87873.png" @click="openDialog()" class="delete_button">
+    <img src="/ui/xbutton_87873.png" @click="openDialog()" class="delete_button" alt="delete_button">
 
     <percent-circle class="percent_circle" :score="expiry_days_remaining"></percent-circle>
 
@@ -86,6 +98,12 @@ onMounted(() => {
   background-color: #282828;
 }
 
+.orange_glow {
+  box-shadow: orange 0 0 5px, #5e3e00 0 0 30px;
+}
+.red_glow {
+  box-shadow: red 0 0 5px, #a40404 0 0 30px;
+}
 h1 {
   font-size: 1em;
   white-space: nowrap;

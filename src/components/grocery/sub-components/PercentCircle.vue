@@ -27,12 +27,12 @@ function get_rating_color(rating){
 
     <div class="progress-bar" :style="
     `background:
-      radial-gradient(closest-side, #2b2a34 80%, transparent 85%),
+      radial-gradient(closest-side, #2b2a34 70%, transparent 75%),
       conic-gradient(${get_rating_color(score)} ${score * 10}%, ${'#595579'} 0);`
     ">
 
       <h1>{{ Math.round(score) }}</h1>
-      <h1 class="small_text">Days</h1>
+<!--      <h1 class="small_text">Days</h1>-->
     </div>
 
   </div>
@@ -54,7 +54,6 @@ function get_rating_color(rating){
   aspect-ratio: 1/1;
   border-radius: 50%;
   box-shadow: 1px 1px 2px black,0 0 3px black;
-
   display: flex;
   gap: 2px;
   justify-content: center;
@@ -62,12 +61,16 @@ function get_rating_color(rating){
 }
 
 h1 {
-  /*position: absolute;*/
+  /*line-height: 11px;*/
+  height: 11px;
+  /*outline: 1px solid red;*/
+  align-items: center;
+  display: flex;
   color: white;
   font-weight: bold;
-  font-size: 0.8em;
+  font-size: 1em;
   text-align: center;
-  transform: translate(1px, 0px);
+  /*transform: translate(1px, -1px);*/
 }
 
 .small_text {
