@@ -1,6 +1,7 @@
 <script setup>
 import {RouterLink, RouterView} from 'vue-router'
 import {provide, ref} from "vue";
+import ConfirmDialog from 'primevue/confirmdialog';
 
 let update_item_id = ref(0)
 let selected_item = ref({})
@@ -16,6 +17,10 @@ provide('selected_item', selected_item)
     <RouterLink to="/" class="link" active-class="active">Home</RouterLink>
     <RouterLink to="/add" class="link" active-class="active">Add</RouterLink>
   </nav>
+
+  <ConfirmDialog style="background-color: #282828; padding: 20px;outline: 3px solid white; border-radius: 10px">
+  </ConfirmDialog>
+
 
   <RouterView/>
 

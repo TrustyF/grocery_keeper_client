@@ -1,8 +1,25 @@
 <script setup>
 import {inject, onMounted, watch, ref, computed} from "vue";
 import PercentCircle from "./sub-components/PercentCircle.vue";
+import {useConfirm} from "primevue/useconfirm";
 
 let props = defineProps(["data"]);
+
+const confirm = useConfirm();
+const openDialog = () => {
+  confirm.require({
+    message: 'Are you sure you want to proceed?',
+    header: 'Confirmation',
+    accept: () => {
+      // isVisible.value = true;
+      delete_item()
+    },
+    reject: () => {
+      // isVisible.value = false;
+      console.log('false')
+    }
+  });
+};
 
 const curr_api = inject("curr_api");
 const update_item_id = inject("update_item_id");
@@ -41,8 +58,10 @@ onMounted(() => {
 <template>
   <div class="wrapper_master_grocery" @click="selected_item=data">
 
-    <button class="delete_button" @click="delete_item">x</button>
+    <img src="src/assets/ui/xbutton_87873.png" @click="openDialog()" class="delete_button">
+
     <percent-circle class="percent_circle" :score="expiry_days_remaining"></percent-circle>
+
     <img class="preview" :src="data['preview_image']" alt="product_image">
 
     <div class="master_footer">
@@ -105,6 +124,10 @@ h3 {
 .delete_button {
   position: absolute;
   right: 0;
-  padding: 2px 7px 2px 7px;
+  /*bottom: 0;*/
+  width: 20px;
+  height: 20px;
+  filter: opacity(50%);
+  margin: 3px;
 }
 </style>

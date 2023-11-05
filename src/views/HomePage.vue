@@ -17,7 +17,7 @@ const curr_api = inject("curr_api");
 .wrapper_home_page {
   display: flex;
   /*outline: 1px solid red;*/
-  width: 95%;
+  width: 80%;
   margin: auto;
 }
 </style>
